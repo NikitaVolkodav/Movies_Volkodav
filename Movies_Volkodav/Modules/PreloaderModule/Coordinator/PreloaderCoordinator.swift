@@ -9,9 +9,9 @@ final class PreloaderCoordinator: BaseCoordinator {
     }
     
     func runMain() {
-//        let mainCoordinator = MainCoordinator(navigationController: navigationController)
-//        mainCoordinator.parentCoordinator = self
-//        add(coordinator: mainCoordinator)
-//        mainCoordinator.start()
+        let mainCoordinator = MainCoordinator(navigationController: navigationController)
+        mainCoordinator.parentCoordinator = self
+        add(coordinator: mainCoordinator)
+        mainCoordinator.start()
     }
 }
