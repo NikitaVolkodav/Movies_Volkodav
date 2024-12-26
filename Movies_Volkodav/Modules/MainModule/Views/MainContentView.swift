@@ -33,7 +33,7 @@ final class MainContentView: BaseInitView {
     
     func setLoading(_ isLoading: Bool) {
         if isLoading {
-            loaderView.startRotating()
+            loaderView.startRotating(color: .systemCyan)
         } else {
             loaderView.stopRotating()
         }

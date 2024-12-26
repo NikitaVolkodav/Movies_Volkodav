@@ -17,11 +17,12 @@ final class MainViewController: UIViewController {
     }
     
     private func startLoading() {
-//        viewModel.loadBreeds()
+//        viewModel.loadMovies()
 //        viewModel.$isLoading.bind { [weak self] isLoading in
 //            guard let self else { return }
 //            DispatchQueue.main.async {
 //                self.contentView.setLoading(isLoading)
+        self.contentView.setLoading(true)
 //                self.contentView.reloadCollectionView()
 //            }
 //        }

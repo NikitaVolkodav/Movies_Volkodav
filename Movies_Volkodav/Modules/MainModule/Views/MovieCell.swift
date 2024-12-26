@@ -3,11 +3,10 @@ import UIKit
 final class MovieCell: BaseCollectionViewCell {
     static let reuseIdentifier = "MovieCell"
     
-//    private let imageView = KingfisherImageView()
-    private let imageView = UIImageView()
+    private let imageView = KingfisherImageView()
     private let titleYearLabel = UILabel()
     private let genreLabel = UILabel()
-    private let ratingLabel = UILabel()
+    private let ratingView = RatingView()
             
     override func setCell() {
         layer.cornerRadius = 10
@@ -19,7 +18,7 @@ final class MovieCell: BaseCollectionViewCell {
         addSubview(imageView)
         addSubview(titleYearLabel)
         addSubview(genreLabel)
-        addSubview(ratingLabel)
+        addSubview(ratingView)
     }
     
     override func setupConfiguration() {
@@ -34,10 +33,12 @@ final class MovieCell: BaseCollectionViewCell {
                       titleYear: String?,
                       genre: String?,
                       rating: String?) {
-//        imageView.loadImage(from: url, defaultImage: defaultImage)
+        let defaultImage = UIImage(systemName: "movieclapper")?
+            .withTintColor(.black, renderingMode: .alwaysOriginal)
+        imageView.loadImage(from: url, defaultImage: defaultImage)
         titleYearLabel.text = titleYear
         genreLabel.text = genre
-        ratingLabel.text = "Rating: \(rating ?? "")"
+        ratingView.setRating(rating)
     }
 }
 // MARK: - setupConfiguration
@@ -46,14 +47,13 @@ private extension MovieCell {
         configImageView()
         configTitleYearLabel()
         configGenreLabel()
-        configRatingLabel()
     }
     
     func configImageView() {
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
-        imageView.backgroundColor = .systemBlue
+        imageView.backgroundColor = .systemGray
     }
     
     func configTitleYearLabel() {
@@ -65,11 +65,6 @@ private extension MovieCell {
         genreLabel.font = .systemFont(ofSize: 16)
         genreLabel.textColor = .systemYellow
     }
-    
-    func configRatingLabel() {
-        ratingLabel.font = .systemFont(ofSize: 16)
-        ratingLabel.textColor = .systemYellow
-    }
 }
 // MARK: - setupConstraints
 private extension MovieCell {
@@ -77,7 +72,7 @@ private extension MovieCell {
         setupImageViewConstraints()
         setupTitleYearLabelConstraints()
         setupGenreLabelConstraints()
-        setupRatingLabelConstraints()
+        setupRatingViewConstraints()
     }
     
     func setupImageViewConstraints() {
@@ -107,11 +102,13 @@ private extension MovieCell {
         ])
     }
     
-    func setupRatingLabelConstraints() {
-        ratingLabel.translatesAutoresizingMaskIntoConstraints = false
+    func setupRatingViewConstraints() {
+        ratingView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            ratingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            ratingLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40)
+            ratingView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
+            ratingView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
+            ratingView.heightAnchor.constraint(equalToConstant: 40),
+            ratingView.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
 }

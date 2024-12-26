@@ -3,8 +3,7 @@ import UIKit
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-//        viewModel.numberOfItems()
-        10
+        viewModel.numberOfItems()
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -28,7 +27,7 @@ extension MainViewController: UICollectionViewDataSource {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-//        viewModel.didSelectBreed(at: indexPath)
+        viewModel.didSelectItem(at: indexPath)
     }
 }
 // MARK: - UICollectionViewDelegateFlowLayout
