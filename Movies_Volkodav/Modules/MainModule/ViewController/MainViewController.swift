@@ -14,6 +14,8 @@ final class MainViewController: UIViewController {
         startLoading()
         setupCollectionView()
         setupFilterButton()
+        setupSortingOption()
+        setupRefreshAction()
     }
     
     private func startLoading() {
@@ -35,7 +37,28 @@ final class MainViewController: UIViewController {
     private func setupFilterButton() {
         contentView.setupFilterButton { [weak self] in
             guard let self = self else { return }
-            print("Open Alert")
+            self.viewModel.showSortingOptions(from: self)
+        }
+    }
+    
+    private func setupSortingOption() {
+        viewModel.onSortingOptionSelected = { [weak self] selectedOption in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.contentView.reloadCollectionView()
+            }
+        }
+    }
+    
+    private func setupRefreshAction() {
+        contentView.refreshAction = { [weak self] in
+            guard let self = self else { return }
+            viewModel.resetMovies()
+            startLoading()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+                guard let self = self else { return }
+                self.contentView.endRefreshing()
+            }
         }
     }
 }

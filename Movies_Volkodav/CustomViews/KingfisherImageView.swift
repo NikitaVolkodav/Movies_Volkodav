@@ -9,9 +9,13 @@ final class KingfisherImageView: UIImageView {
             self.image = defaultImage
             return
         }
+        
+        let retryStrategy = DelayRetryStrategy(maxRetryCount: 3,
+                                               retryInterval: .seconds(0))
 
         let options: KingfisherOptionsInfo = [
             .cacheOriginalImage,
+            .retryStrategy(retryStrategy),
             .fromMemoryCacheOrRefresh
         ]
 

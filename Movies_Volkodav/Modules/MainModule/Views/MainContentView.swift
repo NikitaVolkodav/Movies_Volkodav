@@ -6,6 +6,9 @@ final class MainContentView: BaseInitView {
     private let searchBar = UISearchBar()
     private let collectionView = MainCollectionView()
     private let loaderView = LoaderView()
+    private let refreshControl = UIRefreshControl()
+    
+    var refreshAction: (() -> Void)?
     
     override func setView() {
         backgroundColor = .white
@@ -50,6 +53,10 @@ final class MainContentView: BaseInitView {
     func reloadCollectionView() {
         collectionView.reloadData()
     }
+    
+    func endRefreshing() {
+        refreshControl.endRefreshing()
+    }
 }
 //MARK: - setupConfiguration
 private extension MainContentView {
@@ -57,6 +64,8 @@ private extension MainContentView {
         configNavigationView()
         configSearchBar()
         configCollectionView()
+        configRefreshControl()
+        refresSelector()
     }
     
     func configNavigationView() {
@@ -72,6 +81,16 @@ private extension MainContentView {
         collectionView.register(MovieCell.self,
                                 forCellWithReuseIdentifier: MovieCell.reuseIdentifier)
         collectionView.backgroundColor = .white
+        collectionView.refreshControl = refreshControl
+    }
+    
+    func configRefreshControl() {
+        refreshControl.tintColor = .gray
+        refreshControl.addTarget(self, action: #selector(refresSelector), for: .valueChanged)
+    }
+    
+    @objc func refresSelector() {
+        refreshAction?()
     }
 }
 //MARK: - setupConstraints

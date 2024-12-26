@@ -30,6 +30,12 @@ extension MainViewController: UICollectionViewDelegate {
                         didSelectItemAt indexPath: IndexPath) {
         viewModel.didSelectItem(at: indexPath)
     }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        viewModel.shouldLoadMoreData(at: indexPath)
+    }
 }
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MainViewController: UICollectionViewDelegateFlowLayout {
