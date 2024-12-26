@@ -50,7 +50,7 @@ private extension MovieCell {
     }
     
     func configImageView() {
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 10
         imageView.backgroundColor = .systemGray
@@ -98,15 +98,15 @@ private extension MovieCell {
         genreLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             genreLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            genreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40)
+            genreLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
     func setupRatingViewConstraints() {
         ratingView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            ratingView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24),
-            ratingView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
+            ratingView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
+            ratingView.topAnchor.constraint(equalTo: topAnchor, constant: 55),
             ratingView.heightAnchor.constraint(equalToConstant: 40),
             ratingView.widthAnchor.constraint(equalToConstant: 80)
         ])

@@ -13,11 +13,12 @@ extension MainViewController: UICollectionViewDataSource {
                                  for: indexPath) as? MovieCell else {
             return UICollectionViewCell()
         }
-//        let breeds = viewModel.setBreedInfo(at: indexPath)
-        cell.setMovieCell(url: nil,
-                          titleYear: "Людина павук, 2004",
-                          genre: "Детектив",
-                          rating: "10.0")
+        let movies = viewModel.setMovieInfo(at: indexPath)
+        
+        cell.setMovieCell(url: movies.imageUrl,
+                          titleYear: movies.titleYear,
+                          genre: movies.genres,
+                          rating: movies.rating)
         
         return cell
     }

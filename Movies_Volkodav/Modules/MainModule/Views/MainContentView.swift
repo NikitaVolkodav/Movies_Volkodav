@@ -34,8 +34,10 @@ final class MainContentView: BaseInitView {
     func setLoading(_ isLoading: Bool) {
         if isLoading {
             loaderView.startRotating(color: .systemCyan)
+            collectionView.isHidden = true
         } else {
             loaderView.stopRotating()
+            collectionView.isHidden = false
         }
     }
     
