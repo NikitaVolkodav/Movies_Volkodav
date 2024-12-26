@@ -12,6 +12,7 @@ final class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSelectedMovie()
+        setupTrailerButton()
         setupBackButton()
     }
     
@@ -29,6 +30,12 @@ final class DetailsViewController: UIViewController {
         contentView.setupBackButton { [weak self] in
             guard let self = self else { return }
             viewModel.goBackToMain()
+        }
+    }
+    
+    private func setupTrailerButton() {
+        contentView.trailerButtonAction = { [weak self] in
+            guard let self = self else { return }
         }
     }
 }

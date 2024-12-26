@@ -12,6 +12,7 @@ final class DetailsContentView: BaseInitView {
     private let descriptionLabel = UILabel()
     
     var backButtonAction: (() -> Void)?
+    var trailerButtonAction: (() -> Void)?
     
     override func setView() {
         backgroundColor = .white 
@@ -92,6 +93,12 @@ private extension DetailsContentView {
         trailerButton.layer.cornerRadius = 20
         trailerButton.setTitle("Trailer", for: .normal)
         trailerButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        
+        let action = UIAction { [weak self] _ in
+            self?.trailerButtonAction?()
+        }
+        
+        trailerButton.addAction(action, for: .touchUpInside)
     }
     
     func configDescriptionLabel() {
