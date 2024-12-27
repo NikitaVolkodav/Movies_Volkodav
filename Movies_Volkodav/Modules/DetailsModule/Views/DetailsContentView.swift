@@ -9,7 +9,9 @@ final class DetailsContentView: BaseInitView {
     private let trailerButton = UIButton()
     private let ratingView = RatingView()
     private let detailsView = DetailsView()
+    private let genresLabel = UILabel()
     private let descriptionLabel = UILabel()
+    private let loaderView = LoaderView()
     
     var backButtonAction: (() -> Void)?
     var trailerButtonAction: (() -> Void)?
@@ -26,7 +28,9 @@ final class DetailsContentView: BaseInitView {
         scrollView.addSubview(ratingView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(detailsView)
+        scrollView.addSubview(genresLabel)
         scrollView.addSubview(descriptionLabel)
+        addSubview(loaderView)
     }
     
     override func setupConfiguration() {
@@ -40,6 +44,16 @@ final class DetailsContentView: BaseInitView {
     //MARK: - OpenActions
     func setupBackButton(_ action: (() -> Void)?) {
         navigationView.leftButtonAction = action
+    }
+    
+    func setLoading(_ isLoading: Bool) {
+        if isLoading {
+            loaderView.startRotating(color: .systemCyan)
+            scrollView.isHidden = true
+        } else {
+            loaderView.stopRotating()
+            scrollView.isHidden = false
+        }
     }
     
     func setDetails(movieTitle: String?,
@@ -56,7 +70,8 @@ final class DetailsContentView: BaseInitView {
         titleLabel.text = movieTitle
         imageView.loadImage(from: imageUrl, defaultImage: UIImage(ciImage: .blue))
         ratingView.setRating(rating)
-        detailsView.setDetails(country: country, year: year, genre: genre)
+        detailsView.setDetails(country: country, year: year)
+        genresLabel.text = genre
         descriptionLabel.text = description
     }
 }
@@ -67,6 +82,7 @@ private extension DetailsContentView {
         configImageView()
         configTitleLabel()
         configTrailerButton()
+        configGenreLabel()
         configDescriptionLabel()
     }
     
@@ -101,6 +117,13 @@ private extension DetailsContentView {
         trailerButton.addAction(action, for: .touchUpInside)
     }
     
+    func configGenreLabel() {
+        genresLabel.textColor = .black
+        genresLabel.font = .boldSystemFont(ofSize: 20)
+        genresLabel.numberOfLines = 0
+        genresLabel.lineBreakMode = .byWordWrapping
+    }
+    
     func configDescriptionLabel() {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = .systemFont(ofSize: 22)
@@ -113,15 +136,13 @@ private extension DetailsContentView {
         setupNavigationViewConstraints()
         setupScrollViewConstraints()
         setupImageViewConstraints()
-        
         setupRatingViewConstraints()
-        
         setupTitleLabelConstraints()
-        
         setupDetailsViewConstraints()
-        
         setupTrailerButtonConstraints()
+        setupGenreLabelConstraints()
         setupDescriptionLabelConstraints()
+        setupLoaderViewConstraints()
     }
     
     func setupNavigationViewConstraints() {
@@ -197,13 +218,32 @@ private extension DetailsContentView {
         ])
     }
     
+    func setupGenreLabelConstraints() {
+        genresLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            genresLabel.topAnchor.constraint(equalTo: detailsView.bottomAnchor, constant: 16),
+            genresLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            genresLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+        ])
+    }
+    
     func setupDescriptionLabelConstraints() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: detailsView.bottomAnchor, constant: 16),
+            descriptionLabel.topAnchor.constraint(equalTo: genresLabel.bottomAnchor, constant: 16),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -16)
+        ])
+    }
+    
+    func setupLoaderViewConstraints() {
+        loaderView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loaderView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loaderView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loaderView.heightAnchor.constraint(equalToConstant: 100),
+            loaderView.widthAnchor.constraint(equalToConstant: 100),
         ])
     }
 }

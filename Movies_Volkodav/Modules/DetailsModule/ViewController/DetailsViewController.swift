@@ -11,19 +11,33 @@ final class DetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSelectedMovie()
+        startLoading()
         setupTrailerButton()
         setupBackButton()
     }
     
+    private func startLoading() {
+        viewModel.loadDetails()
+        viewModel.$isLoading.bind { [weak self] isLoading in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.contentView.setLoading(isLoading)
+                self.viewModel.showAlertIfNeeded(on: self)
+                self.setupSelectedMovie()
+            }
+        }
+    }
+    
     private func setupSelectedMovie() {
-        contentView.setDetails(movieTitle: "Людина павук",
-                               imageUrl: "https://parmanews.ru/wp-content/uploads/2021/12/1920x-e1639442173584-696x790.jpg",
-                               country: "Америка", year: "2004",
-                               genre: "Детектив",
-                               trailerUrl: nil,
-                               rating: "10.0",
-                               description: "Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту. Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту. Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту. Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту. Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту. Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту. Дуже великий текст який не є основним і це лише мок текст який я пишу дуже багато щоб зрозуміти як буде виглядати ЮаЙ для опису фільму і як він буде виглядати якщо буде багато тексту.")
+        let details = viewModel.setDetails()
+        contentView.setDetails(movieTitle: details.movieTitle,
+                               imageUrl: details.imageUrl,
+                               country: details.country,
+                               year: details.year,
+                               genre: details.genre,
+                               trailerUrl: details.trailerUrl,
+                               rating: details.rating,
+                               description: details.description)        
     }
     
     private func setupBackButton() {
@@ -36,6 +50,7 @@ final class DetailsViewController: UIViewController {
     private func setupTrailerButton() {
         contentView.trailerButtonAction = { [weak self] in
             guard let self = self else { return }
+            
         }
     }
 }

@@ -3,7 +3,7 @@ import UIKit
 final class MainViewModel {
     
     // MARK: - Dependencies
-    private let networkManager: GetMoviesRequestable = NetworkManager()
+    private let networkManager: MovieListRequestable = NetworkManager()
     private let alertService = AlertService()
 
     // MARK: - Properties
@@ -71,8 +71,8 @@ extension MainViewModel {
 }
 // MARK: - Coordinator
 extension MainViewModel {
-    private func runDetails() {
-        coordinator?.runDetails()
+    private func runDetailsWith(selectedMovie: Int) {
+        coordinator?.runDetailsWith(selectedMovie: selectedMovie)
     }
 }
 //MARK: - Alert
@@ -146,7 +146,6 @@ extension MainViewModel {
 }
 // MARK: - Delegate
 extension MainViewModel {
-    
     func shouldLoadMoreData(at indexPath: IndexPath) {
         let totalItems = movies.count
         if indexPath.item == totalItems - 1 && totalItems % 20 == 0 {
@@ -156,6 +155,7 @@ extension MainViewModel {
     }
     
     func didSelectItem(at indexPath: IndexPath) {
-        runDetails()
+        let movie = currentModel[indexPath.item]
+        runDetailsWith(selectedMovie: movie.id)
     }
 }

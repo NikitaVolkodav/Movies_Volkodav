@@ -1,8 +1,12 @@
 import Foundation
 import Alamofire
 
-protocol GetMoviesRequestable {
+protocol MovieListRequestable {
     func getMovies(page: Int, completion: @escaping (Result<MovieModel, NetworkError>) -> Void)
+}
+
+protocol MovieDetailsRequestable {
+    func getMovieDetails(for id: Int, completion: @escaping (Result<MovieDetailsModel, NetworkError>) -> Void)
 }
 
 final class NetworkManager {
@@ -69,9 +73,8 @@ final class NetworkManager {
         }
     }
 }
-
-// MARK: - GetMoviesRequestable
-extension NetworkManager: GetMoviesRequestable {
+// MARK: - MovieListRequestable
+extension NetworkManager: MovieListRequestable {
     func getMovies(page: Int, completion: @escaping (Result<MovieModel, NetworkError>) -> Void) {
         let queryItems = [
             QueryParameter.includeAdult(false).queryItem,
@@ -86,6 +89,21 @@ extension NetworkManager: GetMoviesRequestable {
             return
         }
         
+        performRequest(with: url, completion: completion)
+    }
+}
+extension NetworkManager: MovieDetailsRequestable {
+    func getMovieDetails(for id: Int, completion: @escaping (Result<MovieDetailsModel, NetworkError>) -> Void) {
+        let queryItems = [
+            QueryParameter.language("en-US").queryItem,
+        ]
+        
+        guard let url = makeURL(for: APIEndpoint.movieDetails(id).path,
+                                queryItems: queryItems) else {
+            completion(.failure(.invalidURL))
+            return
+        }
+                
         performRequest(with: url, completion: completion)
     }
 }

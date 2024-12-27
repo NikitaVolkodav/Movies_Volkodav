@@ -1,9 +1,15 @@
 import Foundation
 
-enum APIEndpoint: String {
-    case discoverMovies = "/3/discover/movie"
+enum APIEndpoint {
+    case discoverMovies
+    case movieDetails(Int)
     
     var path: String {
-        return self.rawValue
+        switch self {
+        case .discoverMovies:
+            return "/3/discover/movie"
+        case .movieDetails(let id):
+            return "/3/movie/\(id)"
+        }
     }
 }

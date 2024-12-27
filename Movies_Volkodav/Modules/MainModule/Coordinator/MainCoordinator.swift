@@ -10,8 +10,9 @@ final class MainCoordinator: BaseCoordinator {
         navigationController.pushViewController(mainViewController, animated: true)
     }
     
-    func runDetails() {
-        let detailsCoordinator = DetailsCoordinator(navigationController: navigationController)
+    func runDetailsWith(selectedMovie: Int) {
+        let detailsCoordinator = DetailsCoordinator(navigationController: navigationController,
+                                                    selectedMovie: selectedMovie)
         detailsCoordinator.parentCoordinator = self
         add(coordinator: detailsCoordinator)
         detailsCoordinator.start()

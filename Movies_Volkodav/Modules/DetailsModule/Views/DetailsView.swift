@@ -4,7 +4,6 @@ final class DetailsView: BaseInitView {
     
     private let countryView = UIButton()
     private let yearView = UIButton()
-    private let genreView = UIButton()
     private let stackView = UIStackView()
     
     override func setView() {
@@ -14,7 +13,6 @@ final class DetailsView: BaseInitView {
         addSubview(stackView)
         stackView.addArrangedSubview(countryView)
         stackView.addArrangedSubview(yearView)
-        stackView.addArrangedSubview(genreView)
     }
     
     override func setupConfiguration() {
@@ -27,11 +25,9 @@ final class DetailsView: BaseInitView {
     
     //MARK: - OpenActions
     func setDetails(country: String?,
-                    year: String?,
-                    genre: String?) {
+                    year: String?) {
         countryView.setTitle("  \(country ?? "")  ", for: .normal)
         yearView.setTitle("  \(year ?? "")  ", for: .normal)
-        genreView.setTitle("  \(genre ?? "")  ", for: .normal)
     }
 }
 //MARK: - setupConfiguration
@@ -52,8 +48,6 @@ private extension DetailsView {
         countryView.layer.cornerRadius = 10
         yearView.backgroundColor = .gray
         yearView.layer.cornerRadius = 10
-        genreView.backgroundColor = .gray
-        genreView.layer.cornerRadius = 10
     }
 }
 //MARK: - setupConstraints
