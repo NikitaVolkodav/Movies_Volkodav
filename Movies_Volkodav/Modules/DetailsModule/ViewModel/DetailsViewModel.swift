@@ -2,14 +2,17 @@ import UIKit
 
 final class DetailsViewModel {
     
+    // MARK: - Dependencies
     private let networkManager: MovieDetailsRequestable = NetworkManager()
-    private var detailsModel: MovieDetailsModel?
-    // MARK: - Coordinator
     weak var coordinator: DetailsCoordinator?
     
+    // MARK: - Model
+    private var detailsModel: MovieDetailsModel?
     var selectedMovie: Int?
+    
+    // MARK: - Error Handling
     private var errorMessage: String?
-
+    
     // MARK: - Observables
     @ObservableValue var isLoading: Bool = false
     @ObservableValue var hasError: Bool = false
@@ -50,7 +53,7 @@ final class DetailsViewModel {
         let genres = genresString.joined(separator: ", ")
         let trailerUrl = ""
         let rating = String(format: "%.1f", detailsModel.voteAverage)
-
+        
         let description = detailsModel.overview.description
         
         return (movieTitle: movieTitle,

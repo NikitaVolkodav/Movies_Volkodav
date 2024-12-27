@@ -40,6 +40,7 @@ final class MainViewModel {
     
     func resetMovies() {
         currentPage = 1
+        selectedSortingOption = .byPopularity
         movies.removeAll()
     }
     

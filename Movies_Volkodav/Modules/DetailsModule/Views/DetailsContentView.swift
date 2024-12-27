@@ -118,6 +118,7 @@ private extension DetailsContentView {
         trailerButton.layer.cornerRadius = 20
         trailerButton.setTitle("Trailer", for: .normal)
         trailerButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        trailerButton.isHidden = true
         
         let action = UIAction { [weak self] _ in
             self?.trailerButtonAction?()

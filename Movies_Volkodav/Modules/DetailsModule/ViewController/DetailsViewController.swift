@@ -58,7 +58,7 @@ final class DetailsViewController: UIViewController {
     private func setupTrailerButton() {
         contentView.trailerButtonAction = { [weak self] in
             guard let self = self else { return }
-            
+            print("Open trailer")
         }
     }
 }
