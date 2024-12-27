@@ -15,6 +15,7 @@ final class DetailsContentView: BaseInitView {
     
     var backButtonAction: (() -> Void)?
     var trailerButtonAction: (() -> Void)?
+    var posterTapAction: (() -> Void)?
     
     override func setView() {
         backgroundColor = .white 
@@ -96,6 +97,14 @@ private extension DetailsContentView {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         imageView.backgroundColor = .systemBlue
+        imageView.isUserInteractionEnabled = true
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleImageTap))
+        imageView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func handleImageTap() {
+        posterTapAction?()
     }
     
     func configTitleLabel() {

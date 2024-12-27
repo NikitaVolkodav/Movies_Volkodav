@@ -95,4 +95,9 @@ extension DetailsViewModel {
     func goBackToMain() {
         coordinator?.goBackToMain()
     }
+    
+    func runPoster() {
+        let imageUrl: String? = detailsModel?.posterPath.map { "https://image.tmdb.org/t/p/w500\($0)" }
+        coordinator?.runPosterWith(posterUrl: imageUrl ?? "")
+    }
 }

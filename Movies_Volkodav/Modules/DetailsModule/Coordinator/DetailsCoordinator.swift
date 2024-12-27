@@ -11,10 +11,18 @@ final class DetailsCoordinator: BaseCoordinator {
     }
     
     override func start() {
-        let breedDetailsViewController = DetailsViewController()
-        breedDetailsViewController.viewModel.coordinator = self
-        breedDetailsViewController.viewModel.selectedMovie = selectedMovie
-        navigationController.pushViewController(breedDetailsViewController, animated: true)
+        let detailsViewController = DetailsViewController()
+        detailsViewController.viewModel.coordinator = self
+        detailsViewController.viewModel.selectedMovie = selectedMovie
+        navigationController.pushViewController(detailsViewController, animated: true)
+    }
+    
+    func runPosterWith(posterUrl: String) {
+        let posterCoordinator = PosterCoordinator(navigationController: navigationController,
+                                                   posterUrl: posterUrl)
+        posterCoordinator.parentCoordinator = self
+        add(coordinator: posterCoordinator)
+        posterCoordinator.start()
     }
     
     func goBackToMain() {

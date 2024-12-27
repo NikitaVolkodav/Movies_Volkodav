@@ -14,6 +14,7 @@ final class DetailsViewController: UIViewController {
         startLoading()
         setupTrailerButton()
         setupBackButton()
+        setupPosterTapAction()
     }
     
     private func startLoading() {
@@ -44,6 +45,13 @@ final class DetailsViewController: UIViewController {
         contentView.setupBackButton { [weak self] in
             guard let self = self else { return }
             viewModel.goBackToMain()
+        }
+    }
+    
+    private func setupPosterTapAction() {
+        contentView.posterTapAction = { [weak self] in
+            guard let self = self else { return }
+            viewModel.runPoster()
         }
     }
     
