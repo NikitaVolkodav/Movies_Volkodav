@@ -13,9 +13,16 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         startLoading()
         setupCollectionView()
+        setupSearchBar()
         setupFilterButton()
         setupSortingOption()
         setupRefreshAction()
+    }
+    
+    func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.contentView.reloadCollectionView()
+        }
     }
     
     private func startLoading() {
@@ -34,6 +41,10 @@ final class MainViewController: UIViewController {
                                       delegate: self)
     }
     
+    private func setupSearchBar() {
+        contentView.setSearchBar(delegate: self)
+    }
+    
     private func setupFilterButton() {
         contentView.setupFilterButton { [weak self] in
             guard let self = self else { return }
@@ -44,9 +55,7 @@ final class MainViewController: UIViewController {
     private func setupSortingOption() {
         viewModel.onSortingOptionSelected = { [weak self] selectedOption in
             guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.contentView.reloadCollectionView()
-            }
+            reloadCollectionView()
         }
     }
     

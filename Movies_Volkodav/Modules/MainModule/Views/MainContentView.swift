@@ -50,6 +50,10 @@ final class MainContentView: BaseInitView {
         collectionView.delegate = delegate
     }
     
+    func setSearchBar(delegate: UISearchBarDelegate) {
+        searchBar.delegate = delegate
+    }
+    
     func reloadCollectionView() {
         collectionView.reloadData()
     }

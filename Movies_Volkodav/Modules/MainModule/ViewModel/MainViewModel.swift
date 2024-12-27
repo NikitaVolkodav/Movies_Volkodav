@@ -18,7 +18,6 @@ final class MainViewModel {
     private var movies: [Movie] = []
     private var currentModel: [Movie] = []
 
-
     // MARK: - Observables
     @ObservableValue var isLoading: Bool = false
 
@@ -39,6 +38,14 @@ final class MainViewModel {
     func resetMovies() {
         currentPage = 1
         movies.removeAll()
+    }
+    
+    func filterMovies(by searchText: String) {
+        if searchText.isEmpty {
+            currentModel = movies
+        } else {
+            currentModel = movies.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+        }
     }
 }
 // MARK: - Network
@@ -87,17 +94,14 @@ extension MainViewModel {
        private func applySorting(_ option: SortingOption) {
            switch option {
            case .byPopularity:
-               print("Applying sorting by popularity")
                currentModel = movies
 
            case .byName:
                currentModel = movies.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
 
-               print("Applying sorting by name")
            case .byRating:
                currentModel = movies.sorted { $0.voteAverage > $1.voteAverage }
 
-               print("Applying sorting by rating")
            }
        }
 }
@@ -105,11 +109,9 @@ extension MainViewModel {
 extension MainViewModel {
     func numberOfItems() -> Int {
         currentModel.count
-//        movies.count
     }
     
     func setMovieInfo(at indexPath: IndexPath) -> (titleYear: String?, imageUrl: String?, genres: String?, rating: String?) {
-//        let movie = movies[indexPath.item]
         let movie = currentModel[indexPath.item]
         
         let titleYear: String
