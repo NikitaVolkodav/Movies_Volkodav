@@ -11,6 +11,7 @@ final class MainViewModel {
     private var sortingOptions: [SortingOption] {
         return SortingOption.allCases
     }
+    private var errorMessage: String?
 
     // MARK: - Movie Data
     private var currentPage: Int = 1
@@ -20,6 +21,7 @@ final class MainViewModel {
 
     // MARK: - Observables
     @ObservableValue var isLoading: Bool = false
+    @ObservableValue var hasError: Bool = false
 
     // MARK: - Callbacks
     var onSortingOptionSelected: ((SortingOption) -> Void)?
@@ -29,6 +31,7 @@ final class MainViewModel {
 
     func loadMovies() {
         isLoading = true
+        hasError = false
         getMoviews(page: currentPage) { [weak self] in
             guard let self = self else { return }
             self.isLoading = false
@@ -59,8 +62,9 @@ extension MainViewModel {
                 self.movies.append(contentsOf: success.results)
                 currentModel = movies
                 currentPage += 1
-            case .failure(let failure):
-                print(failure)
+            case .failure(let error):
+                self.hasError = true
+                self.errorMessage = ErrorDescriptionService.description(for: error)
             }
         }
     }
@@ -73,6 +77,14 @@ extension MainViewModel {
 }
 //MARK: - Alert
 extension MainViewModel {
+    func showAlertIfNeeded(on viewController: UIViewController) {
+        if hasError, let message = errorMessage {
+            AlertContainer.showAlert(on: viewController, for: .error(retry: { [weak self] in
+                guard let self = self else { return }
+                loadMovies()
+            }), message: message)
+        }
+    }
 
     func showSortingOptions(from viewController: UIViewController) {
         alertService.showSortingActionSheet(

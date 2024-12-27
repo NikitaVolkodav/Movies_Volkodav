@@ -32,6 +32,7 @@ final class MainViewController: UIViewController {
             DispatchQueue.main.async {
                 self.contentView.setLoading(isLoading)
                 self.contentView.reloadCollectionView()
+                self.viewModel.showAlertIfNeeded(on: self)
             }
         }
     }
